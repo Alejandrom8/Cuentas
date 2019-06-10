@@ -1,4 +1,4 @@
 
- credito,Alejandro Gómez García,1,8/6/2019,2,Ciudad de México,ale.wild.ones@gmail.com,5544332211,3942882172025966,08/07/2019,08/06/2024,100.0,0.0
+ credito,Alejandro GÃ³mez GarcÃ­a,1,8/6/2019,2,Ciudad de MÃ©xico,ale.wild.ones@gmail.com,5544332211,3942882172025966,08/07/2019,08/06/2024,100.0,0.0
 
- debito,Fernanda Morales Oviedo,1,9/6/2019,2,Jálisco,ale.wild.ones@gmail.com,5544332211,44747910345,400.0,none
+ debito,Fernanda Morales Oviedo,1,9/6/2019,2,JÃ¡lisco,fer@gmail.com,5544332211,44747910345,40000.0,none
