@@ -3,11 +3,12 @@ package Banco.Cuentas;
 public class Nomina extends Cuenta{
 	
 	public String nocta, RFCE, nombre_empresa, fecha_deposito;
-	public float saldo;
+	public double saldo;
 	
 	public Nomina(
+			String ej,
 			String nc,//name of the client
-            String no_c,//number of client
+            int no_c,//number of client
             String fa,//append date of the count
             int no_s,//number of branch office
             String e,//state
@@ -17,9 +18,9 @@ public class Nomina extends Cuenta{
             String rfce,
             String nombre,
             String fd,
-            float saldo
+            double saldo
     ){
-		super(nc, no_c, fa, no_s, e, c, t);
+		super(ej, nc, no_c, fa, no_s, e, c, t);
 		this.nocta = nocta;
 		this.RFCE = rfce;
 		this.nombre_empresa = nombre;

@@ -1,0 +1,4 @@
+1,nomina,Alejandro,GOGA,nunca jamas,5545825533,4000.0,alex
+2,debito,Fernanda Morales Oviedo,MOOV,nunca jamas x2,55443322,500000.0,fer
+3,credito,Lizeth Murguia Manzano,MUMA,pubelo de muy muy lejano,444444444,50000.0,nada
+4,debito,Ruby,RUBY,no la se,60764302,100.0,contrasena

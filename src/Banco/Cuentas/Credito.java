@@ -5,8 +5,9 @@ public class Credito extends Cuenta{
 	public double importe_credito, MCU;
 	
 	public Credito(
+			String ej,
             String nc,//name of the client
-            String no_c,//number of client
+            int no_c,//number of client
             String fa,//append date of the count
             int no_s,//number of branch office
             String e,//state
@@ -18,7 +19,7 @@ public class Credito extends Cuenta{
             double ic,
             double mcu
     ){
-		super(nc, no_c, fa, no_s, e, c, t);
+		super(ej, nc, no_c, fa, no_s, e, c, t);
 		this.no_tarjeta = no_t;
 		this.fecha_pago = fp;
 		this.fecha_vencimiento = fv;

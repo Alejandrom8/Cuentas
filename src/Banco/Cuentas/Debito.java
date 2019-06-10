@@ -7,8 +7,9 @@ public class Debito extends Cuenta{
 	public String fecha_corte;//fecha de corte
 	
 	public Debito(
+			String ej,
 			String nc,//name of the client
-            String no_c,//number of client
+            int no_c,//number of client
             String fa,//append date of the count
             int no_s,//number of branch office
             String e,//state
@@ -17,7 +18,7 @@ public class Debito extends Cuenta{
             String nocta,
             double saldo
     ){
-		super(nc, no_c, fa, no_s, e, c, t);
+		super(ej, nc, no_c, fa, no_s, e, c, t);
 		this.nocta = nocta;
 		this.saldo = saldo;
 		this.fecha_corte = "none";
