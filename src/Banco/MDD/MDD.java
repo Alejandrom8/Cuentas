@@ -9,7 +9,8 @@ import Banco.Cuentas.*;
 
 public class MDD {
 	
-	private final String dir =  System.getProperty("user.dir"); 
+//	private final String dir =  System.getProperty("user.dir"); 
+	public Ejecutivo[] ejecutivos;
 	
 	public MDD() {
 		this.verificarArchivo("cuentas");
@@ -85,6 +86,7 @@ public class MDD {
 						+ cuenta.saldo + ","
 						+ cuenta.fecha_corte
 				);
+				
 				out.newLine();
 				out.close();
 				System.out.println("Cuenta de débito creada");
@@ -161,6 +163,113 @@ public class MDD {
 		}
 		
 		return false;
+	}
+	
+	public boolean insertarEjecutivo(Ejecutivo registro) {
+		
+		try {
+			
+			FileWriter fw = new FileWriter("ejecutivos.txt", true);
+			BufferedWriter out = new BufferedWriter(fw);
+			
+			out.write(
+					registro.no_empleado + ","
+					+ registro.tipo + ","
+					+ registro.nombre + ","
+					+ registro.RFC + ","
+					+ registro.dir + ","
+					+ registro.tel + ","
+					+ registro.sueldo + ","
+					+ registro.pass 
+			);
+			
+			out.newLine();
+			out.close();
+			System.out.println("Ejecutivo " + registro.nombre + " registrado exitosamente");
+			return true;
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "ha sucedido un error al registrar al ejecutivo: " + e);
+		}
+		
+		return false;
+	}
+	
+	public int contarLineas (String archivo) {
+		
+		int no_lineas = 0;
+		String linea;
+		FileReader fr;
+		BufferedReader br;
+		
+		try {
+			
+			fr = new FileReader (archivo);
+			br = new BufferedReader (fr);
+			
+			linea = br.readLine();
+			
+			while(linea != null) {
+				no_lineas++;
+				linea = br.readLine();
+			}
+			
+			br.close();
+			
+		}catch(IOException ioex) {
+			
+			System.out.println("No se pudo leer la información del archivo " + archivo);
+			System.out.println(ioex.getMessage());
+			System.exit(1);
+			
+		}
+		
+		return no_lineas;
+	}
+	
+	public Ejecutivo[] CargarEjecutivos(){
+		
+		FileReader fw;
+		BufferedReader br;
+		String line;
+		Ejecutivo[] ejecutivos = new Ejecutivo[contarLineas("ejecutivos.txt")];
+		String separador = ",";
+		int index = 0;
+		
+		try {
+			fw = new FileReader("ejecutivos.txt");
+			br = new BufferedReader(fw);
+			line = br.readLine();
+			
+			while(line != null) {
+				String[] data = line.split(separador);
+				int no_e = Integer.parseInt(data[0]);
+				double sueldo = Double.parseDouble(data[6]);
+				Ejecutivo ne = new Ejecutivo(
+						no_e,
+						data[1],
+						data[2],
+						data[3],
+						data[4],
+						data[5],
+						sueldo,
+						data[7]
+				);
+				ejecutivos[index] = ne;
+				index++;
+				line = br.readLine();
+			}
+			
+			br.close();
+			return ejecutivos;
+		}catch(FileNotFoundException e) {
+			System.out.println("El archivo ejecutivos.txt no existe!");
+		}catch(IOException e) {
+			System.out.println("No se pudo leer la información del archivo ejecutivos.txt");
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+		
+		return null;
 	}
 	
 }
