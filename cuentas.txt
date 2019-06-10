@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 nomina,GOGA,Alejandro,1,10/6/2019,2,CDMX,alex@gmail.com,5545825533,1142566858,Fernandino,FERN,25/06/2019,50000.0
 nomina,GOGA,,1,10/6/2019,2,Fernanda,Ciudad de Mexico,5545825533,5271285470,La empresa de FEr,LEDF,25/06/2019,3000.0
 debito,MOOV,Maximiliano Barba Bejarano,2,10/6/2019,2,Morelos,max@gmail.com,5544332211,776110010284,100.0,none
 debito,RUBY,Brandon Palomo,3,10/6/2019,4,Sonora,palomo@gmail.com,44335522,19210802733,20000.0,none
+=======
+
+ credito,Alejandro Gómez García,1,8/6/2019,2,Ciudad de México,ale.wild.ones@gmail.com,5544332211,3942882172025966,08/07/2019,08/06/2024,100.0,0.0
+
+ debito,Fernanda Morales Oviedo,1,9/6/2019,2,Jálisco,fer@gmail.com,5544332211,44747910345,40000.0,none
+>>>>>>> e2b710553b4ba3c78438ad6aa585a311af01ecf8
