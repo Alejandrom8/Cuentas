@@ -17,9 +17,9 @@ public class index {
 		do {
 			
 			System.out.print("\nIngresa tu RFC: ");
-			String rfc = input.nextLine();
+			String rfc = input.nextLine().trim();
 			System.out.print("Ingresa tu contraseña: ");
-			String pass = input.nextLine();
+			String pass = input.nextLine().trim();
 			confirm = control.login(rfc, pass);
 			if(!confirm) {
 				trys++;
@@ -37,8 +37,8 @@ public class index {
 		//introduce al proceso de registrar un ejecutivo
 		Scanner input = new Scanner(System.in);
 		String[] menuRegistro = {"Registrar ejecutivo de Débito", "Registrar ejecutivo de Crédito", "Registrar ejecutivo de Nómina"};
-		String menuRegistroText = control.makeMenu(menuRegistro, "Registrar");
-		System.out.println(menuRegistroText);
+		String menuRegistroText = control.tool.makeMenu(menuRegistro, "Registrar");
+		System.out.print(menuRegistroText);
 		int opcionRegistro = Integer.parseInt(input.nextLine());
 		String tipoEjecutivo;
 		
@@ -59,7 +59,7 @@ public class index {
 		
 		System.out.print("Ingresa el nombre del ejecutivo: ");
 		String nombre = input.nextLine();
-		System.out.print("Ingresa el RFC del ejecutivo: ");
+		System.out.print("Ingresa el RFC del ejecutivo (en mayusculas): ");
 		String rfc = input.nextLine();
 		System.out.print("Ingresa la dirección del ejecutivo: ");
 		String dir = input.nextLine();
@@ -97,9 +97,28 @@ public class index {
 	
 	public static boolean init() {
 		
+		System.out.println("      _________________________\r\n" + 
+				"     /////////////|\\\\\\\\\\\\\\\\\\\\\\\\\\\r\n" + 
+				"    '.-------------------------.'\r\n" + 
+				"     |                         |	Bienvenid@ al banco "+ control.nombre_banco +"\r\n" + 
+				"     | [] [] [] [] [] [] [] [] |\r\n" + 
+				"     |                         |\r\n" + 
+				"   _.-.        _ _2_ _         |\r\n" + 
+				"   >   )] [] []||_||||[] [] [] |,'`\\\r\n" + 
+				"   `.,'________||___||_________|\\  <\r\n" + 
+				"    ||  /  _<> _     _    (_)<>\\ ||\r\n" + 
+				"    '' /<>(_),:/     \\:. <>'  <>\\||\r\n" + 
+				"    __::::::::/ _ _ _ \\:::::::::::_\r\n" + 
+				"   __________           ___________\r\n" + 
+				"      ,.::. /           \\  _________\r\n" + 
+				"      `''''/             \\ \\:'-'-'-'-\r\n" + 
+				"          ||             || \\\\\r\n" + 
+				"\r\n" + 
+				"------------------------------------------------\r\n");
+		
 		Scanner input2 = new Scanner(System.in);
 		String[] menu = {"iniciar sesion", "registrar ejecutivo"};
-		String menuText = control.makeMenu(menu, "inicio");
+		String menuText = control.tool.makeMenu(menu, "inicio");
 		
 		System.out.print(menuText);
 		
@@ -138,16 +157,17 @@ public class index {
 		if(inicio) {
 			
 			String[] mainOptions = {"cuentas", "ejecutivos", "cerrar sesion"};
-			String[] countsOptions = {"crear cuenta", "buscar cuenta", "regresar"};
-			String[] ejecuOptions = {"crear nuevo ejecutivo", "regresar"};
+			String[] countsOptions = {"crear cuenta","mostrar cuentas","buscar cuenta","retirar", "depositar","regresar"};
+			String[] ejecuOptions = {"crear nuevo ejecutivo", "mostrar ejecutivos", "buscar ejecutivo por RFC", "regresar"};
 			
-			String menuText = control.makeMenu(mainOptions, "banco");
-			String countsText = control.makeMenu(countsOptions, "cuentas");
-			String ejecuText = control.makeMenu(ejecuOptions, "ejecutivos");
+			String menuText = control.tool.makeMenu(mainOptions, "banco");
+			String countsText = control.tool.makeMenu(countsOptions, "cuentas");
+			String ejecuText = control.tool.makeMenu(ejecuOptions, "ejecutivos");
 			
 			int res;
 			
 			do {
+				
 				System.out.print(menuText);
 				res = Integer.parseInt(input.nextLine());
 				
@@ -162,11 +182,40 @@ public class index {
 								control.controlCuentas();
 								break;
 							case 2:
-								//buscar cuenta
-								
-								control.Busquedas();
+								//mostrar cuentas
+								control.mostrarCuentas();
 								break;
 							case 3:
+								//buscar cuenta
+								control.Busquedas();
+								break;
+							case 4:
+								//retirar
+								System.out.println("Ingrese el numero del cliente: ");
+								int respuesta = Integer.parseInt(input.nextLine());
+								System.out.println("Ingrese el monto a retirar: ");
+								double monto = Double.parseDouble(input.nextLine());
+								switch(control.ejecutivoActual.getTipo()) {
+									case "debito":
+										control.activity.retiroDebito(control.ejecutivoActual.getTipo(), monto, respuesta, control.cuentasDebito);
+										break;
+									case "credito":
+										control.activity.retiroCredito(control.ejecutivoActual.getTipo(), monto, respuesta, control.cuentasCredito);
+										break;
+									case "nomina":
+										control.activity.retiroNomina(control.ejecutivoActual.getTipo(), monto, respuesta, control.cuentasNomina);
+										break;
+								}
+								break;
+							case 5:
+								//depositar
+								System.out.println("Ingrese el numero del cliente: ");
+								int num1 = Integer.parseInt(input.nextLine());
+								System.out.println("Ingrese el monto a depositar: ");
+								double monto1 = Double.parseDouble(input.nextLine());
+								System.out.println("Se deposito "+ monto1 + " a el usuario con numero de cliente: " + num1);
+								break;
+							case 6:
 								//regresar
 								break;
 							default:
@@ -176,14 +225,35 @@ public class index {
 						break;
 					case 2:
 						//opciones de operaciones con los ejecutivos
-						System.out.println(ejecuText);
+						System.out.print(ejecuText);
 						int op = Integer.parseInt(input.nextLine());
 						switch(op) {
 							case 1:
 								//registrar nuevo ejecutivo
+								System.out.println("\n\n####################################\n"
+										+	   "#				   #\n" 
+										+  	   "#	 NUEVO EJECUTIVO 	   #\n"
+										+	   "#				   #\n"
+										+	   "####################################\n\n"
+								);
 								registrar();
 								break;
 							case 2:
+								//mostrar cuentas
+								control.mostrarEjecutivos();
+								break;
+							case 3:
+								//buscar ejecutivos por RFC
+								System.out.print("Introduce el RFC del ejecutivo: ");
+								String rfc = input.nextLine();
+								ServiceResult response = control.exp.SearchInEjecutivos(control.ejecutivos, rfc);
+								if(response.success) {
+									System.out.println(control.ejecutivos[Integer.parseInt(response.data)].toTableString(true));
+								}else {
+									System.out.println("\nNo hay resultados que coincidan con este RFC\n");
+								}
+								break;
+							case 4:
 								//regresar
 								break;
 							default:
@@ -193,6 +263,21 @@ public class index {
 						break;
 					case 3:
 						//finalizar programa completo
+						control.con.vaciarArchivo("cuentas.txt");
+						control.con.nuevoAlmacenDeDatos("cuentas.txt");
+						
+						for(int i = 0; i < control.cuentasDebito.length; i++) {
+							control.con.insertarCuentaDebito(control.cuentasDebito[i]);
+						}
+						
+						for(int i = 0; i < control.cuentasCredito.length; i++) {
+							control.con.insertarCuentaCredito(control.cuentasCredito[i]);
+						}
+						
+						for(int i = 0; i < control.cuentasNomina.length; i++) {
+							control.con.insertarCuentaNomina(control.cuentasNomina[i]);
+						}
+						
 						System.out.print("Fin del programa");
 						break;
 					default:

@@ -90,7 +90,6 @@ public class MDD {
 				
 				out.newLine();
 				out.close();
-				System.out.println("\nCuenta de débito creada");
 				return true;
 			}catch(Exception e){
 				JOptionPane.showMessageDialog(null, "ha sucedido un error al crear cuenta de debito: " + e);
@@ -124,7 +123,6 @@ public class MDD {
 				);
 				out.newLine();
 				out.close();
-				System.out.println("\nCuenta de crédito creada");
 				return true;
 			}catch(Exception e){
 				JOptionPane.showMessageDialog(null, "ha sucedido un error al crear la cuenta de crédito: " + e);
@@ -158,7 +156,6 @@ public class MDD {
 				);
 				out.newLine();
 				out.close();
-				System.out.println("\nCuenta de nómina creada");
 				return true;
 			}catch(Exception e){
 				JOptionPane.showMessageDialog(null, "ha sucedido un error al crear la cuenta de nómina: " + e);
@@ -197,7 +194,7 @@ public class MDD {
 		return false;
 	}
 	
-	public int contarLineas (String archivo) {
+	public int contarLineas (String archivo, String tipo) {
 		
 		int no_lineas = 0;
 		String linea;
@@ -211,19 +208,26 @@ public class MDD {
 			
 			linea = br.readLine();
 			
-			while(linea != null) {
-				no_lineas++;
-				linea = br.readLine();
+			if(archivo.equals("cuentas.txt")) {
+				while(linea != null) {
+					if(linea.split(",")[0].equals(tipo)) {
+						no_lineas++;
+					}
+					linea = br.readLine();
+				}
+			}else {
+				while(linea != null) {
+					no_lineas++;
+					linea = br.readLine();
+				}
 			}
 			
 			br.close();
 			
 		}catch(IOException ioex) {
-			
 			System.out.println("No se pudo leer la información del archivo " + archivo);
 			System.out.println(ioex.getMessage());
 			System.exit(1);
-			
 		}
 		
 		return no_lineas;
@@ -234,7 +238,7 @@ public class MDD {
 		FileReader fw;
 		BufferedReader br;
 		String line;
-		int numLines = contarLineas("ejecutivos.txt");
+		int numLines = contarLineas("ejecutivos.txt", null);
 		Ejecutivo[] ejecutivos = new Ejecutivo[numLines];
 		String separador = ",";
 		int index = 0;
@@ -281,7 +285,7 @@ public class MDD {
 		FileReader fw;
 		BufferedReader br;
 		String line;
-		int numLines = contarLineas("cuentas.txt");
+		int numLines = contarLineas("cuentas.txt", "debito");
 		Debito[] cuentas = new Debito[numLines];
 		String separador = ",";
 		int index = 0;
@@ -332,8 +336,8 @@ public class MDD {
 		FileReader fw;
 		BufferedReader br;
 		String line;
-		int numLines = contarLineas("cuentas.txt");
-		Credito[] cuentas = new Credito[numLines];
+		int numLines = contarLineas("cuentas.txt", "credito");
+		Credito[] cuentasCredito = new Credito[numLines];
 		String separador = ",";
 		int index = 0;
 		
@@ -365,7 +369,7 @@ public class MDD {
 								importe_credito,
 								mcu
 						);
-						cuentas[index] = item;
+						cuentasCredito[index] = item;
 						index++;
 					}
 					line = br.readLine();
@@ -379,7 +383,7 @@ public class MDD {
 				System.exit(1);
 			}
 		}
-		return cuentas;
+		return cuentasCredito;
 	}
 	
 	
@@ -388,8 +392,8 @@ public class MDD {
 		FileReader fw;
 		BufferedReader br;
 		String line;
-		int numLines = contarLineas("cuentas.txt");
-		Nomina[] cuentas = new Nomina[numLines];
+		int numLines = contarLineas("cuentas.txt", "nomina");
+		Nomina[] cuentasNomina = new Nomina[numLines];
 		String separador = ",";
 		int index = 0;
 		
@@ -420,7 +424,7 @@ public class MDD {
 								data[12],
 								saldo
 						);
-						cuentas[index] = item;
+						cuentasNomina[index] = item;
 						index++;
 					}
 					line = br.readLine();
@@ -434,7 +438,20 @@ public class MDD {
 				System.exit(1);
 			}
 		}
-		return cuentas;
+		return cuentasNomina;
 	}
+	
+	public boolean vaciarArchivo(String path) {
+		try {
+			File fichero = new File(path);
+			fichero.delete();
+			return true;
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "ha sucedido un error al registrar al ejecutivo: " + e);
+		}
+		
+		return false;
+	}
+	
 	
 }
